@@ -5,10 +5,23 @@
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script src="script.js"></script>
+
+<script>
+    let userName = prompt("whats your name");
+    let room = prompt("room name");
+</script>
+
+
 </head>
-<body>
+<body onload="test();">
 
     <h1>Dobrodošli v novem svetu!</h1>
-
+    <form>
+        <input type="text" id="sporocilo" />
+        <input type="submit" id="submitButton" value="submit" />
+      </form>
+      <ul id="sporocila"></ul>
 </body>
 </html>

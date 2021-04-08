@@ -1,0 +1,44 @@
+<html>
+    <script
+    src="https://code.jquery.com/jquery-3.5.1.js"
+    integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+    crossorigin="anonymous"
+  ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+  
+  <script src="script.js"></script>
+<body>
+    <ul id="messages"></ul>
+    <form>
+      <input type="text" id="m" />
+      <button  id="send">send</button>
+    </form>
+    <button  id="btn">Dobi</button>
+    <button  id="btn_enega">Dobi enega</button>
+    
+  </body>
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+    let ime = prompt("whats your name");
+    let room = prompt("room name");
+
+ 
+    let spo = ""
+    console.log(ime + " " + room)
+
+    $("#m").focus();
+
+    document.getElementsByTagName("form")[0].addEventListener("submit", function (event) {
+        event.preventDefault();
+        console.log(document.getElementById("m").value)
+        spo = document.getElementById("m").value
+
+        document.getElementById("m").value = "";
+        //displayMessage();
+    });
+
+  </script>
+</html>
