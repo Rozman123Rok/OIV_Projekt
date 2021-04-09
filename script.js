@@ -1,15 +1,22 @@
+var id_zadnega // id zadnega sporocila
+let link_za_testiranje
+
 $(document).ready(function(){
 
-    //console.log("Moje ime:" + ime) // IME KI SI GA VPISAL
-    //console.log("Soba:" + room) // IME SOBE KI SI VPISAL
+    console.log("Moje ime:" + ime) // IME KI SI GA VPISAL
+    console.log("Soba:" + room) // IME SOBE KI SI VPISAL
     encode_room = btoa(room) // ZAKODIRAMO IME SOBE DA LHAKO UPORABIMO
     //console.log("Encode: " + btoa(room))
-    var id_zadnega // id zadnega sporocila
+    //var id_zadnega // id zadnega sporocila
     const Url_get='https://oiv.rmk.cloud/api/v1/room/' + encode_room + '/messages'; // SI SHRANIM LINK ZA DOBIVANJE VSEH SPOROCIL
     const Url_post='https://oiv.rmk.cloud/api/v1/room/' + encode_room + '/message' // SHRANIM LINK ZA POSILJANJE SPOROCIL
+    let spo = ""
+    console.log(ime + " " + room)
+
     //var Url_samo_eno //='https://oiv.rmk.cloud/api/v1/room/' + encode_room + '/messages/from_id/' + id_zadnega // LINK ZA DOBIVANJE SAMO ENEGA SPOROCILA
     stevilo_prikaza_vseh = 0
     let link_test
+    let prej_link
     
     // KO STISNEM GUMB ZA SEND
     $('#send').click(function(){
@@ -57,6 +64,15 @@ $(document).ready(function(){
         }
     })
 
+    setInterval(function(){
+        $.getJSON(link_test, function(result){
+            link_za_testiranje = link_test
+            link_test = prikaziDobSpo(result)
+            
+        })  
+
+     }, 500);
+
     $('#btn').click(function(){
         // GUMB ZA PRIKAZ VSEH SPOROCIL
         $.getJSON(Url_get, function(result){
@@ -103,7 +119,12 @@ function prikaziDobSpo(data){
     }
 
     // SI SHRANIM ID ZADNEGA
-    id_zadnega = data[data.length-1].id;
-    Url_samo_eno='https://oiv.rmk.cloud/api/v1/room/' + encode_room + '/messages/from_id/' + id_zadnega + ''// LINK ZA DOBIVANJE SAMO ENEGA SPOROCILA
+    if(data.length != 0){
+        id_zadnega = data[data.length-1].id;
+        Url_samo_eno='https://oiv.rmk.cloud/api/v1/room/' + encode_room + '/messages/from_id/' + id_zadnega + ''// LINK ZA DOBIVANJE SAMO ENEGA SPOROCILA
+    }
+
+
+    
     return Url_samo_eno
 }

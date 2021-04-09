@@ -9,7 +9,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
   
   <script src="script.js"></script>
+
+
 <body>
+
     <ul id="messages"></ul>
     <form>
       <input type="text" id="m" />
@@ -17,17 +20,16 @@
     </form>
     <button  id="btn">Dobi</button>
     <button  id="btn_enega">Dobi enega</button>
-    
+
   </body>
   <script src="/socket.io/socket.io.js"></script>
 
   <script>
-    let ime = prompt("whats your name");
-    let room = prompt("room name");
 
- 
-    let spo = ""
-    console.log(ime + " " + room)
+    let ime = prompt("USERNAME");
+    let room = prompt("IME SOBE");
+    let geslo = prompt("GESLO SOBE");
+
 
     $("#m").focus();
 
@@ -39,6 +41,10 @@
         document.getElementById("m").value = "";
         //displayMessage();
     });
+    
 
   </script>
+    <script type="text/javascript">
+
+    </script>
 </html>
