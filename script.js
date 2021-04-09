@@ -13,36 +13,27 @@ $(document).ready(function(){
     const Url_post='https://oiv.rmk.cloud/api/v1/room/' + encode_room + '/message' // SHRANIM LINK ZA POSILJANJE SPOROCIL
     let spo = ""
     console.log(ime + " " + room)
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("PUT", Url_post);
-    
-    xhr.setRequestHeader("Accept", "application/json");
-    xhr.setRequestHeader("Content-Type", "application/json");
-    
-    xhr.onreadystatechange = function () {
-       if (xhr.readyState === 4) {
-          console.log(xhr.status);
-          console.log(xhr.responseText);
-       }};
-    
-    //var Url_samo_eno //='https://oiv.rmk.cloud/api/v1/room/' + encode_room + '/messages/from_id/' + id_zadnega // LINK ZA DOBIVANJE SAMO ENEGA SPOROCILA
     stevilo_prikaza_vseh = 0
-    let link_test
-    let prej_link
 
-    const date = new Date(); // DOBIM DATUM
 
-    //RFC 3339 format
-    const formatted = date.toISOString(); // SI SHRANIMO FORMAT
-    var zakodirano_spo = CryptoJS.AES.encrypt(ime + " se je pridruzil pogovoru!", encode_room);
-    var uvodno_spo = `{
-        "time": "` + formatted + `",
-        "user": "` + ime + `",
-        "message": "` + zakodirano_spo + `"
-    }`;
+    // takoj ko je hocemo vsa sporocila
+    $.getJSON(Url_get, function(result){
+        console.log(result)
+        if(result.length == 0){
+            console.log("Ni se bilo sporocil posli da zacenjas pogovor!");
+            zacetno_sporocilo(Url_post);
+            link_test = Url_get;  // mogoce je tu error
+        }
+        else{
+            // lahko prikazemo sporocila
+            link_test = prikaziDobSpo(result)  
+            stevilo_prikaza_vseh = 1
+        }
+        //link_test = prikaziDobSpo(result)
+    })
 
-    xhr.send(uvodno_spo); // POSLEMO DATA
+
+
     // KO STISNEM GUMB ZA SEND
     $('#send').click(function(){
         var xhr = new XMLHttpRequest();
@@ -172,4 +163,35 @@ function prikaziDobSpo(data){
 
     
     return Url_samo_eno
+}
+
+
+function zacetno_sporocilo(Url_post){
+    var xhr = new XMLHttpRequest();
+    xhr.open("PUT", Url_post);
+        
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Content-Type", "application/json");
+        
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            console.log(xhr.status);
+            console.log(xhr.responseText);
+        }};
+    
+    const date = new Date(); // DOBIM DATUM
+
+    //RFC 3339 format
+    const formatted = date.toISOString(); // SI SHRANIMO FORMAT
+    sporocilo = ime + " je zacel pogovor"
+    var zakodirano_spo = CryptoJS.AES.encrypt(sporocilo, encode_room);
+
+    // USTVARIMO DATA DA LAHKO POSLEMO
+    var data = `{
+        "time": "` + formatted + `",
+        "user": "` + ime + `",
+        "message": "` + zakodirano_spo + `"
+    }`;
+    
+    xhr.send(data); // POSLEMO DATA
 }
