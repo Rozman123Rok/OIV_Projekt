@@ -1,3 +1,26 @@
+.mojDiv{
+  color: red;
+  font-size: large;
+  position: relative;
+  left: 500px;
+  display: block;
+  border: 3px solid red;
+  padding: 50px;
+  max-width: 500px;
+}
+
+.drugDiv{
+  color: blue;
+  font-size: large;
+  position: relative;
+  left: auto;
+  display: block;
+  padding: 50px;
+  border: 3px solid blue;
+  max-width: 500px;
+}
+
+/**
 body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: #989696
@@ -78,4 +101,4 @@ body {
        float: none;
     }
   }
-  
+  */
