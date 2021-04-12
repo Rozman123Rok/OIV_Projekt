@@ -6,8 +6,7 @@
   ></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js" integrity="sha512-nOQuvD9nKirvxDdvQ9OMqe2dgapbPB7vYAMrzJihw5m+aNcf0dX53m6YxM4LgA9u8e9eg9QX+/+mPu8kCNpV2A==" crossorigin="anonymous"></script>
   
   <script src="script.js"></script>
 
@@ -20,19 +19,32 @@
       <!--<button class="gumb" id="send">send</button>-->
       <button class="button" style="vertical-align:middle" id="send"><span>Send </span></button>
     </form>
+    <!---
     <button  id="btn">Dobi</button>
     <button  id="btn_enega">Dobi enega</button>
-    
+    --->
+<!---- -->
+    <form id="loginForm" class="form-signin">       
+      <h2 class="form-signin-heading">Vpisi se!</h2>
+      <input id="username" type="text" class="form-control" name="username" placeholder="Username" required autofocus="" />
+      <input id="room" type="text" class="form-control" name="room" placeholder="Ime sobe" required />
+      <input id="password" type="password" class="form-control" name="password" placeholder="Geslo" required/></br></br>      
+  </form>
+  <button id="submitButton" class="btn btn-lg btn-primary btn-block" type="submit">Login</button> 
+
 
   </body>
   <script src="/socket.io/socket.io.js"></script>
 
   <script>
 
-    let ime = prompt("USERNAME");
-    let room = prompt("IME SOBE");
-    let geslo = prompt("GESLO SOBE");
-
+    let ime //= prompt("USERNAME");
+    let room //= prompt("IME SOBE");
+    let geslo //= prompt("GESLO SOBE");
+    let Url_get //='https://oiv.rmk.cloud/api/v1/room/' + encode_room + '/messages'; // SI SHRANIM LINK ZA DOBIVANJE VSEH SPOROCIL
+    let Url_post
+    $("#m").hide(); //Hide submit button
+    $("#send").hide(); //Show other button
 
     $("#m").focus();
 

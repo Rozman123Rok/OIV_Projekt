@@ -1,18 +1,20 @@
 var id_zadnega // id zadnega sporocila
 let link_za_testiranje
 let stevec = 0
+polni=false
 
 $(document).ready(function(){
 
-    console.log("Moje ime:" + ime) // IME KI SI GA VPISAL
-    console.log("Soba:" + room) // IME SOBE KI SI VPISAL
-    encode_room = btoa(room) // ZAKODIRAMO IME SOBE DA LHAKO UPORABIMO
-
+    //console.log("Moje ime:" + ime) // IME KI SI GA VPISAL
+    //console.log("Soba:" + room) // IME SOBE KI SI VPISAL
+    //encode_room = btoa(room) // ZAKODIRAMO IME SOBE DA LHAKO UPORABIMO
+    //encode_room =CryptoJS.enc.Base64.stringify(CryptoJS.enc.Hex.parse(room))
+    //encode_room = encode_Base64url(room)
     //console.log("Encode: " + btoa(room))
     //var id_zadnega // id zadnega sporocila
-    const Url_get='https://oiv.rmk.cloud/api/v1/room/' + encode_room + '/messages'; // SI SHRANIM LINK ZA DOBIVANJE VSEH SPOROCIL
-    const Url_post='https://oiv.rmk.cloud/api/v1/room/' + encode_room + '/message' // SHRANIM LINK ZA POSILJANJE SPOROCIL
+     //='https://oiv.rmk.cloud/api/v1/room/' + encode_room + '/message' // SHRANIM LINK ZA POSILJANJE SPOROCIL
     let spo = ""
+    /*
     console.log(ime + " " + room)
     stevilo_prikaza_vseh = 0
 
@@ -20,8 +22,51 @@ $(document).ready(function(){
     var pass = geslo;
     console.log("Geslo:" + pass);
     sha256(pass);
-    
+    */
+    /**/ 
+    $('#submitButton').click(function(){
+        ime = document.getElementById("username").value 
+        room = document.getElementById("room").value 
+        geslo = document.getElementById("password").value 
+        console.log("TU")
+        console.log("Moje ime:" + ime) // IME KI SI GA VPISAL
+        console.log("Soba:" + room) // IME SOBE KI SI VPISAL
+        console.log("Geslo:" + geslo) // IME SOBE KI SI VPISAL
+        polni=true
+  
+        $("#m").show(); //Hide submit button
+        $("#send").show(); //Show other button
+        $("#loginForm").hide(); //Hide submit button
+        $("#submitButton").hide(); //Show other button
+        console.log(ime + " " + room)
+        stevilo_prikaza_vseh = 0
 
+        encode_room = btoa(room) // ZAKODIRAMO IME SOBE DA LHAKO UPORABIMO
+        Url_get='https://oiv.rmk.cloud/api/v1/room/' + encode_room + '/messages'; // SI SHRANIM LINK ZA DOBIVANJE VSEH SPOROCIL
+        Url_post='https://oiv.rmk.cloud/api/v1/room/' + encode_room + '/message' // SHRANIM LINK ZA POSILJANJE SPOROCIL
+    
+        //sifriran room pass
+        var pass = geslo;
+        console.log("Geslo:" + pass);
+        sha256(pass);
+        $.getJSON(Url_get, function(result){
+            console.log("Result:" + result)
+            if(result.length == 0){
+                console.log("Ni se bilo sporocil posli da zacenjas pogovor!");
+                zacetno_sporocilo(Url_post);
+                link_test = Url_get;  // mogoce je tu error
+            }
+            else{
+                // lahko prikazemo sporocila
+                link_test = prikaziDobSpo(result)  
+                stevilo_prikaza_vseh = 1
+            }
+            //link_test = prikaziDobSpo(result)
+        })
+      })
+      
+
+      /* 
     // takoj ko je hocemo vsa sporocila
     $.getJSON(Url_get, function(result){
         console.log("Result:" + result)
@@ -37,7 +82,7 @@ $(document).ready(function(){
         }
         //link_test = prikaziDobSpo(result)
     })
-
+    */
 
 
     // KO STISNEM GUMB ZA SEND
@@ -143,15 +188,22 @@ $(document).ready(function(){
         }
         */
     })
-
+    
+        
     setInterval(function(){
-        $.getJSON(link_test, function(result){
-            link_za_testiranje = link_test
-            link_test = prikaziDobSpo(result)
-            
-        })  
+        if(polni){
+            console.log("POLNI")
+            $.getJSON(link_test, function(result){
+                link_za_testiranje = link_test
+                link_test = prikaziDobSpo(result)
+                
+            })
+        }  
+        else{
+            console.log("Ne se polni")
+        }
+    }, 500);
 
-     }, 500);
 
     $('#btn').click(function(){
         // GUMB ZA PRIKAZ VSEH SPOROCIL
