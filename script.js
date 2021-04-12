@@ -61,6 +61,7 @@ $(document).ready(function(){
 
         // encrypt message
         sporocilo = document.getElementById("m").value;
+        console.log("SPOROCILO PRED JE : " + sporocilo)
 
         console.log(" ------------------------------------ PRICETEK SIFRIRANJA ------------------------------")
         const passHash = CryptoJS.SHA256(geslo);

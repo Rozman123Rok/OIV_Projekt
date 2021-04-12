@@ -1,104 +1,74 @@
 .mojDiv{
-  color: red;
-  font-size: large;
-  position: relative;
-  left: 500px;
-  display: block;
-  border: 3px solid red;
-  padding: 50px;
-  max-width: 500px;
+  font-size: 20px;
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
 }
 
 .drugDiv{
-  color: blue;
-  font-size: large;
-  position: relative;
-  left: auto;
-  display: block;
-  padding: 50px;
-  border: 3px solid blue;
-  max-width: 500px;
+  font-size: 20px;
+  border: 2px solid #ccc;
+  background-color: #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
 }
 
-/**
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #989696
-  }
-  
-  input[type=text], input[type=password] {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-  }
-  
-  button {
-    background-color: #04fb94;
-    color: #424242;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    font-weight: 800;
-  }
-  
-  button:hover {
-    opacity: 0.8;
-  }
-  
-  .imgcontainer {
-    text-align: center;
-    margin: 24px 0 0 0;
-    padding: 16px;
-    width: 340px;
-    float: center;
-    text-align: center;
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-  }
-  
-  img.avatar {
-    border-radius: 50%;
-    width: 300px;
-  }
-  
-  .container {
-    padding: 16px;
-    width: 340px;
-    float: center;
-    text-align: center;
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
-    color: #424242;
-  }
-  
-  .main_con{
-    background-color: white;
-    border: 16px solid #ccc;
-    border-radius: 25px;
-    width: 500px;
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  span.psw {
-    float: right;
-    padding-top: 16px;
-    
-  }
-  
-  @media screen and (max-width: 300px) {
-    span.psw {
-       display: block;
-       float: none;
-    }
-  }
-  */
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+input {
+  width: 79%;
+  height: 50px;
+}
+
+.button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 25px;
+  padding: 10px;
+  width: 20%;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 15px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.message{
+  //color:red;
+  font-weight: bold;
+  font-size: large;
+}
