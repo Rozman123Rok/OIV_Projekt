@@ -63,6 +63,15 @@ $(document).ready(function(){
         sporocilo = document.getElementById("m").value;
 
         console.log(" ------------------------------------ PRICETEK SIFRIRANJA ------------------------------")
+        const passHash = CryptoJS.SHA256(geslo);
+        const iv = CryptoJS.lib.WordArray.random(16);
+        const key = CryptoJS.enc.Hex.parse(passHash.toString());
+        const encrypted = CryptoJS.AES.encrypt(sporocilo, key, {iv: iv});
+        const ivHex = CryptoJS.enc.Hex.stringify(iv)
+        const messageHex = CryptoJS.enc.Hex.stringify(encrypted.ciphertext)
+        const finalMessage = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Hex.parse(ivHex + messageHex))
+        
+        /*
         var hash_geslo = sha256(geslo);
         console.log("Key: " + hash_geslo)
         console.log("Hashano geslo: " + hash_geslo)
@@ -80,7 +89,8 @@ $(document).ready(function(){
         var skupaj = moj_iv.toString() + zakodirano_spo.toString()
         console.log("Skupaj: " + skupaj)
         var spo_base64url = encode_Base64url(skupaj);
-
+        //var spo_base64url = btoa(skupaj);
+        */
 
 
 
@@ -109,7 +119,7 @@ $(document).ready(function(){
         var data = `{
             "time": "` + formatted + `",
             "user": "` + ime + `",
-            "message": "` + spo_base64url + `"
+            "message": "` + finalMessage + `"
         }`;
         
         xhr.send(data); // POSLEMO DATA
@@ -174,10 +184,24 @@ function prikaziDobSpo(data){
         }
         console.log(" ------------------------------- PRICETEK DEKODIRANJA -------------------------------------------")
         sporocilo = data[i].message;
+        const passHash = CryptoJS.SHA256(geslo);
+        const key = CryptoJS.enc.Hex.parse(passHash.toString());
+        const inputMessage = CryptoJS.enc.Hex.stringify(CryptoJS.enc.Base64.parse(sporocilo))
+        const decIV = CryptoJS.enc.Hex.parse(inputMessage.slice(0,32));
+        const decMessageEncrypted = CryptoJS.enc.Hex.parse(inputMessage.slice(32));
+        const decrypted = CryptoJS.AES.decrypt({ciphertext: decMessageEncrypted}, key, {iv: decIV});
+        const decryptedMessage = decrypted.toString(CryptoJS.enc.Utf8)
+        
+        
+        /*
+        sporocilo = data[i].message;
         console.log("Sporocilo: " + sporocilo)
         var key = sha256(geslo);
         console.log("Key: " + key)
+        
+        //var decoded_sporocilo = base64DecodeURL(sporocilo);
         var decoded_sporocilo = decode_Base64url(sporocilo);
+        //var decoded_sporocilo = atob(sporocilo);
         console.log("Decode sporocilo: " + decoded_sporocilo)
         var iv_po = CryptoJS.enc.Hex.parse(decoded_sporocilo.slice(0,32));
         console.log("IV PO: " + iv_po)
@@ -186,7 +210,7 @@ function prikaziDobSpo(data){
         decrypted = CryptoJS.AES.decrypt(preostaalo_sporocilo, key, {iv: iv_po,mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
         pravo = decrypted.toString(CryptoJS.enc.Utf8)
         console.log("Pravo: " + pravo)
-
+        */
         /*
         spo = data[i].message
         var hashed = sha256(geslo);
@@ -212,7 +236,7 @@ function prikaziDobSpo(data){
         const p = document.createElement("p");
         p.className = "time";
         p.innerHTML = '<p>' + data[i].time+ '</p>'
-        div.innerHTML = '<p class="' + authorClass + '">' + data[i].user + "</p>" + '<p class="message"> ' + pravo + "</p>";
+        div.innerHTML = '<p class="' + authorClass + '">' + data[i].user + "</p>" + '<p class="message"> ' + decryptedMessage + "</p>";
         div.appendChild(p);
         li.appendChild(div);
 
@@ -258,6 +282,18 @@ function zacetno_sporocilo(Url_post){
     const formatted = date.toISOString(); // SI SHRANIMO FORMAT
     sporocilo = ime + " je zacel pogovor"
 
+    const passHash = CryptoJS.SHA256(geslo);
+    const iv = CryptoJS.lib.WordArray.random(16);
+    const key = CryptoJS.enc.Hex.parse(passHash.toString());
+    const encrypted = CryptoJS.AES.encrypt(sporocilo, key, {iv: iv});
+
+    const ivHex = CryptoJS.enc.Hex.stringify(iv)
+    const messageHex = CryptoJS.enc.Hex.stringify(encrypted.ciphertext)
+    const finalMessage = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Hex.parse(ivHex + messageHex))
+
+
+
+        /*
     var hash_geslo = sha256(geslo);
     console.log("Hashano geslo: " + hash_geslo)
     //console.log("Hashano geslo type of: " + typeof(hash_geslo))
@@ -274,7 +310,7 @@ function zacetno_sporocilo(Url_post){
     var skupaj = moj_iv.toString() + zakodirano_spo.toString()
     //console.log("Skupaj: " + skupaj)
     var spo_base64url = encode_Base64url(skupaj);
-
+*/
 
     /*
     hash_pass = sha256(geslo);
@@ -295,7 +331,7 @@ function zacetno_sporocilo(Url_post){
     var data = `{
         "time": "` + formatted + `",
         "user": "` + ime + `",
-        "message": "` + spo_base64url + `"
+        "message": "` + finalMessage + `"
     }`;
     
     xhr.send(data); // POSLEMO DATA
@@ -306,6 +342,37 @@ function sha256(pass){
     console.log("Hash-Geslo:" + hash);
     return hash
 }
+
+function test_base(input) {
+    console.log("To je v funkciji pred: " + input)
+    // Replace non-url compatible chars with base64 standard chars
+    input = input
+        .replace(/-/g, '+')
+        .replace(/_/g, '/');
+
+    // Pad out with standard base64 required padding characters
+    var pad = input.length % 4;
+    if(pad) {
+      if(pad === 1) {
+        throw new Error('InvalidLengthError: Input base64url string is the wrong length to determine padding');
+      }
+      input += new Array(5-pad).join('=');
+    }
+    console.log("To je v funkciji po:   " + input)
+    return input;
+}
+
+function base64EncodeURL(byteArray) {
+    return btoa(Array.from(new Uint8Array(byteArray)).map(val => {
+      return String.fromCharCode(val);
+    }).join('')).replace(/\+/g, '-').replace(/\//g, '_').replace(/\=/g, '');
+  }
+  
+  function base64DecodeURL(b64urlstring) {
+    return new Uint8Array(atob(b64urlstring.replace(/-/g, '+').replace(/_/g, '/')).split('').map(val => {
+      return val.charCodeAt(0);
+    }));
+  }
 
 function unescape (str) {
     return (str + '==='.slice((str.length + 3) % 4)).replace(/-/g, '+').replace(/_/g, '/')
@@ -320,8 +387,10 @@ function encode_Base64url (str) {
 }
   
 function decode_Base64url (str) {
-    return atob(unescape(str))
+    return atob(test_base(str))
+    //return atob(unescape(str))
 }
+
 
 
 
