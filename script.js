@@ -60,7 +60,7 @@ $(document).ready(function(){
         const formatted = date.toISOString(); // SI SHRANIMO FORMAT
 
         // encrypt message
-        sporocilo = document.getElementById("m").value;
+        sporocilo = CryptoJS.enc.Utf16.parse(document.getElementById("m").value);
         console.log("SPOROCILO PRED JE : " + sporocilo)
 
         console.log(" ------------------------------------ PRICETEK SIFRIRANJA ------------------------------")
@@ -281,7 +281,7 @@ function zacetno_sporocilo(Url_post){
 
     //RFC 3339 format
     const formatted = date.toISOString(); // SI SHRANIMO FORMAT
-    sporocilo = ime + " je zacel pogovor"
+    sporocilo = CryptoJS.enc.Utf16.parse(ime + " je zacel pogovor")
 
     const passHash = CryptoJS.SHA256(geslo);
     const iv = CryptoJS.lib.WordArray.random(16);
