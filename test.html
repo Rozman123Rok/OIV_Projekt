@@ -16,14 +16,9 @@
     <ul id="messages"></ul>
     <form>
       <input type="text" id="m" />
-      <!--<button class="gumb" id="send">send</button>-->
       <button class="button" style="vertical-align:middle" id="send"><span>Send </span></button>
     </form>
-    <!---
-    <button  id="btn">Dobi</button>
-    <button  id="btn_enega">Dobi enega</button>
-    --->
-<!---- -->
+
     <form id="loginForm" class="form-signin">       
       <h2 class="form-signin-heading">Vpisi se!</h2>
       <input id="username" type="text" class="form-control" name="username" placeholder="Username" required autofocus="" />
@@ -38,13 +33,13 @@
 
   <script>
 
-    let ime //= prompt("USERNAME");
-    let room //= prompt("IME SOBE");
-    let geslo //= prompt("GESLO SOBE");
-    let Url_get //='https://oiv.rmk.cloud/api/v1/room/' + encode_room + '/messages'; // SI SHRANIM LINK ZA DOBIVANJE VSEH SPOROCIL
+    let ime 
+    let room
+    let geslo
+    let Url_get
     let Url_post
-    $("#m").hide(); //Hide submit button
-    $("#send").hide(); //Show other button
+    $("#m").hide();
+    $("#send").hide();
 
     $("#m").focus();
 
@@ -54,7 +49,6 @@
         spo = document.getElementById("m").value
 
         document.getElementById("m").value = "";
-        //displayMessage();
     });
     
 
